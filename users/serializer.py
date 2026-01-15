@@ -10,18 +10,18 @@ class Userregister(serializers.ModelSerializer):
     
     class Meta:
         model =User
-        fields = ['username','password1','password2']
-        extra_kwargs = {'password1': {'write_only': True}}
+        fields = ['username','password','password2']
+        extra_kwargs = {'password': {'write_only': True}}
         
     def validate(self, attrs):
-        if attrs['password1'] != attrs['password2']:
+        if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError("Passwords do not match")
         return attrs 
     def create(self, validated_data):
         user = User.objects.create_user(
             username=validated_data['username'],
             
-            password=validated_data['password1']
+            password=validated_data['password']
         )
         return user
     
